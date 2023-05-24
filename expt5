@@ -1,0 +1,58 @@
+// RMI Interface import java.rmi.*; public interface RmiInterface
+extends Remote{ public boolean palindrome(String str) throws
+RemoteException; }
+// Palindrome Interface import java.rmi.*; public class
+PalindromeImplement implements RmiInterface { public boolean
+palindrome(String str){ String s="";
+for(int i=str.length()-1;i>=0;i--) {
+s+=str.charAt(i);
+}
+if(str.compareTo(s)==0) { return
+true;
+} else { return
+false;
+}
+}
+}
+// RMI Client
+import java.rmi.registry.LocateRegistry; import
+java.rmi.registry.Registry; public class rmiclient
+{ public rmiclient() {} public static void
+main(String[] args) {
+RmiInterface stub; try
+{
+String str = "level";
+Registry r = LocateRegistry.getRegistry();
+stub=(RmiInterface)r.lookup("rmi://localhost/abc");
+boolean result = stub.palindrome(str); if(result)
+{
+System.out.println("String "+str+" is palindrome");
+} else
+{
+System.out.println("String "+str+" is not a palindrome");
+}
+}
+catch(Exception e) {
+System.out.println("HelloClint exception: " +
+e); }
+}
+//RMI Server
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry; import
+java.rmi.server.UnicastRemoteObject;
+public class rmiserver
+{
+public rmiserver() {} public static void
+main(String[] args)
+{ try {
+PalindromeImplement a = new PalindromeImplement()
+RmiInterface stub =
+(RmiInterface)UnicastRemoteObject.exportObject(a,0);
+Registry reg = LocateRegistry.getRegistry();
+reg.bind("rmi://localhost/abc", stub);
+System.out.println("Server Ready");
+}catch (Exception e) {
+System.out.println("Exception"+ e );
+}
+}
+} 
