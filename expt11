@@ -1,0 +1,84 @@
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet; 
+import javax.servlet.http.HttpServletRequest; 
+import javax.servlet.http.HttpServletResponse;
+public class ResultSheetGeneratorServlet extends HttpServlet {
+private static final long serialVersionUID = 1L;
+ @Override
+ protected void doPost(HttpServletRequest request, HttpServletResponse response) throws
+ServletException, IOException { response.setContentType("text/html;charset=UTF-8");
+ PrintWriter out = response.getWriter();
+ String name = request.getParameter("name"); int subject1 =
+Integer.parseInt(request.getParameter("subject1")); int subject2 =
+Integer.parseInt(request.getParameter("subject2")); int subject3 =
+Integer.parseInt(request.getParameter("subject3")); int subject4 =
+Integer.parseInt(request.getParameter("subject4")); int subject5 =
+Integer.parseInt(request.getParameter("subject5"));
+ int totalMarks = subject1 + subject2 + subject3 + subject4 + subject5;
+double percentage = totalMarks / 5.0;
+ out.println("<html><head><title>Result Sheet</title></head><body>"); out.println("<h2>Result
+Sheet</h2>"); out.println("<p>Name: " + name + "</p>"); out.println("<p>Subject 1 Marks: " +
+subject1 + "</p>"); out.println("<p>Subject 2 Marks: " + subject2 + "</p>");
+out.println("<p>Subject 3 Marks: " + subject3 + "</p>"); out.println("<p>Subject 4 Marks: " + subject4
++ "</p>"); out.println("<p>Subject 5 Marks: " + subject5 + "</p>"); out.println("<p>Total Marks: "
++ totalMarks + "</p>"); out.println("<p>Percentage: " + percentage + "%</p>");
+out.println("</body></html>");
+ }
+}
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Result Sheet</title>
+</head>
+<body>
+ <h1>Result Sheet</h1>
+
+ <%-- form to accept student details --%>
+ <form action="result_sheet.jsp" method="post">
+ <label for="name">Name:</label>
+ <input type="text" id="name" name="name" required><br><br>
+
+ <label for="subject1">Physics Marks:</label>
+ <input type="number" id="subject1" name="subject1" required><br><br> <label
+for="subject2">Chemistry Marks:</label>
+ <input type="number" id="subject2" name="subject2" required><br><br>
+
+ <label for="subject3">Maths Marks:</label>
+ <input type="number" id="subject3" name="subject3" required><br><br>
+
+ <label for="subject4">History Marks:</label>
+ <input type="number" id="subject4" name="subject4" required><br><br>
+
+ <label for="subject5">Geography Marks:</label>
+ <input type="number" id="subject5" name="subject5" required><br><br>
+
+ <input type="submit" value="Generate Result Sheet">
+ </form>
+
+ <%-- generate result sheet --%>
+ <% if (request.getMethod().equals("POST")) { String name
+= request.getParameter("name"); int subject1 =
+Integer.parseInt(request.getParameter("subject1")); int subject2 =
+Integer.parseInt(request.getParameter("subject2")); int subject3 =
+Integer.parseInt(request.getParameter("subject3")); int subject4 =
+Integer.parseInt(request.getParameter("subject4")); int subject5 =
+Integer.parseInt(request.getParameter("subject5"));
+ int totalMarks = subject1 + subject2 + subject3 + subject4 + subject5;
+double percentage = totalMarks / 5.0;
+ out.println("<h2>Result Sheet</h2>");
+out.println("<p>Name: " + name + "</p>");
+out.println("<p>Subject 1 Marks: " + subject1 + "</p>");
+out.println("<p>Subject 2 Marks: " + subject2 + "</p>");
+out.println("<p>Subject 3 Marks: " + subject3 + "</p>");
+out.println("<p>Subject 4 Marks: " + subject4 + "</p>");
+out.println("<p>Subject 5 Marks: " + subject5 + "</p>");
+out.println("<p>Total Marks: " + totalMarks + "</p>");
+out.println("<p>Percentage: " + percentage + "%</p>");
+ }
+ %>
+</body>
+</html>
